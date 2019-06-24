@@ -67,7 +67,7 @@ class SCMDDiagnostics(object):
 # device is encapsulated by this class. The device class should be the only value exported 
 # from this module.
 
-class QwiicSCMD(object):
+class QwiicScmd(object):
 
 	# Constructor
 	device_name = _DEFAULT_NAME
