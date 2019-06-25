@@ -6,9 +6,6 @@
 #
 # Written by  SparkFun Electronics, May 2019
 # 
-# This python library supports the SparkFun Electroncis qwiic 
-# qwiic sensor/board ecosystem on a Raspberry Pi (and compatable) single
-# board computers. 
 #
 # More information on qwiic is at https:# www.sparkfun.com/qwiic
 #
@@ -27,10 +24,6 @@ import qwiic_i2c
 
 # Define the device name and I2C addresses. These are set in the class defintion 
 # as class variables, making them avilable without having to create a class instance.
-#
-# The base class and associated support functions use these class varables to 
-# allow users to easily identify connected devices as well as provide basic 
-# device services.
 #
 # The name of this device - note this is private 
 _DEFAULT_NAME = "Qwiic Serial Control Motor Driver"
@@ -61,11 +54,6 @@ class SCMDDiagnostics(object):
 		self.FSAFE_FAULTS = 0
 		self.REG_OOR_CNT = 0
 		self.REG_RO_WRITE_CNT = 0
-
- 
-# define the class that encapsulates the device being created. All information associated with this
-# device is encapsulated by this class. The device class should be the only value exported 
-# from this module.
 
 class QwiicScmd(object):
 
@@ -205,16 +193,25 @@ class QwiicScmd(object):
 	SCMD_REM_READ              = 0x7E
 
 
-	def __init__(self, address=None):
+	def __init__(self, address=None, i2c_driver=None):
 
+
+		# Did the user specify an I2C address?
 		self.address = address if address != None else self.available_addresses[0]
 
-		# load the I2C driver
+		# load the I2C driver if one isn't provided
 
-		self._i2c = qwiic_i2c.getI2CDriver()
-		if self._i2c == None:
-			print("Unable to load I2C driver for this platform.")
-			return
+		if i2c_driver == None:
+			self._i2c = qwiic_i2c.getI2CDriver()
+			if self._i2c == None:
+				print("Unable to load I2C driver for this platform.")
+				return
+		else:
+			self._i2c = i2c_driver
+
+	#----------------------------------------------
+	def isConnected(self):
+		return qwiic_i2c.isDeviceConnected(self.address)
 
 	def begin(self):
 
