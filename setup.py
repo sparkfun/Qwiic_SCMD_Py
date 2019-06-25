@@ -39,9 +39,9 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # http://packaging.python.org/en/latest/tutorial.html#version
-    version='0.0.9',
+    version='0.1.0',
 
-    description='SparkFun Electronics qwiic CCS811',
+    description='SparkFun Electronics qwiic SCMD',
     long_description=long_description,
 
     # The project's main homepage.
