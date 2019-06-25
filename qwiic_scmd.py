@@ -38,7 +38,7 @@ class SCMDDiagnostics(object):
 
 	def __init__(self):
 
-		super(SCMDDiagnostics, self).__init__(self)
+		super(SCMDDiagnostics, self).__init__()
 
 		# Attainable metrics from SCMD
 		self.numberOfSlaves = 0
