@@ -8,7 +8,7 @@ Python module for the qwiic serial control motor driver
 This python package is a port of the existing [SparkFun Serial Controlled Motor Driver Arduino Library](https://github.com/sparkfun/SparkFun_Serial_Controlled_Motor_Driver_Arduino_Library)
 
 ## Dependencies 
-This driver package depends on the qwii I2C driver: 
+This driver package depends on the qwiic I2C driver: 
 [Qwiic_I2C_Py](https://github.com/sparkfun/Qwiic_I2C_Py)
 
   
