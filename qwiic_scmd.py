@@ -257,11 +257,12 @@ class QwiicScmd(object):
 	# 
 	#   uint8_t motorNum -- Motor number from 0 to 33
 	#   uint8_t direction -- 0 or 1 for forward and backward
-	#   uint8_t level -- 0 to 255 for drive strength
+	#   int8_t level -- (-255) to 255 for drive strength
 	def setDrive( self, motorNum, direction, level):
 
-		# convert to 7 bit
-		level = level >> 1
+		# Convert value to a 7-bit int and match the indexing for uint8_t values as needed in Arduino library
+		level = round((level + 1 - direction)/2) 
+		
 		driveValue =0 # use to build value to actually write to register
 		
 		# Make sure the motor number is valid
