@@ -9,7 +9,7 @@ Qwiic_SCMD_Py
 	<a href="https://test.pypi.org/project/sparkfun_qwiic_scmd/" alt="Package">
 		<img src="https://img.shields.io/pypi/pyversions/sparkfun_qwiic_scmd.svg" /></a>
 	<a href="https://github.com/sparkfun/Qwiic_SCMD_Py/issues" alt="Issues">
-		<img src="https://img.shields.io/github/issues/sparkfun/Qwiic_SCMD_Py/issues.svg" /></a>
+		<img src="https://img.shields.io/github/issues/sparkfun/Qwiic_SCMD_Py.svg" /></a>
 	<a href="https://github.com/sparkfun/Qwiic_SCMD_Py/blob/master/LICENSE" alt="License">
 		<img src="https://img.shields.io/badge/license-MIT-blue.svg" /></a>
 	<a href="https://twitter.com/intent/follow?screen_name=sparkfun">
