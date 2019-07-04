@@ -6,10 +6,12 @@ Qwiic_SCMD_Py
    <img src="https://www.python.org/static/community_logos/python-logo-master-v3-TM.png"  width=240>   
 </p>
 <p align="center">
-	<a href="https://test.pypi.org/project/sparkfun_qwiic_scmd/" alt="Package">
+	<a href="https://pypi.org/project/sparkfun-qwiic-scmd/" alt="Package">
 		<img src="https://img.shields.io/pypi/pyversions/sparkfun_qwiic_scmd.svg" /></a>
 	<a href="https://github.com/sparkfun/Qwiic_SCMD_Py/issues" alt="Issues">
 		<img src="https://img.shields.io/github/issues/sparkfun/Qwiic_SCMD_Py.svg" /></a>
+	<a href="https://qwiic-scmd-py.readthedocs.io/en/latest/?" alt="Documentation">
+		<img src="https://readthedocs.org/projects/qwiic-scmd-py/badge/?version=latest&style=flat" /></a>
 	<a href="https://github.com/sparkfun/Qwiic_SCMD_Py/blob/master/LICENSE" alt="License">
 		<img src="https://img.shields.io/badge/license-MIT-blue.svg" /></a>
 	<a href="https://twitter.com/intent/follow?screen_name=sparkfun">
@@ -28,24 +30,34 @@ This package can be used in conjunction with the overall [SparkFun qwiic Python 
 
 New to qwiic? Take a look at the entire [SparkFun qwiic ecosystem](https://www.sparkfun.com/qwiic).
 
+## Contents
+
+* [Dependencies](#dependencies)
+* [Installation](#installation)
+* [Documentation](#documentation)
+
 Dependencies 
 -------------
 This driver package depends on the qwiic I2C driver: 
 [Qwiic_I2C_Py](https://github.com/sparkfun/Qwiic_I2C_Py)
 
+Documentation
+-------------
+The Sparkfun qwiic SCMD module documentation is hosted at [ReadTheDocs](https://qwiic-scmd-py.readthedocs.io/en/latest/index.html)
+
 Installation
 ---------------
 ### PyPi Installation
-On systems that support PyPi installation via pip, this library is installed using the following commands
+This repository is hosted on PyPi as the [sparkfun-qwiic-scmd](https://pypi.org/project/sparkfun-qwiic-scmd/) package. On systems that support PyPi installation via pip, this library is installed using the following commands
 
 For all users (note: the user must have sudo privileges):
 ```sh
-sudo pip install sparkfun_qwiic_scmd
+sudo pip install sparkfun-qwiic-scmd
 ```
 For the current user:
 
 ```sh
-pip install sparkfun_qwiic_scmd
+pip install sparkfun-qwiic-scmd
 ```
 
 ### Local Installation
