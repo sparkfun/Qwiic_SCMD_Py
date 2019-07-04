@@ -70,6 +70,7 @@ pip install sparkfun_qwiic_scmd-<version>.tar.gz
  -------------
  ```
  TBD
+ 
  ```
 
 <p align="center">
