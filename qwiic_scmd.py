@@ -32,7 +32,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
 # SOFTWARE.
 #==================================================================================
+"""
+qwiic_scmd
+============
+Python module for the serial control motor driver.
 
+This python package is a port of the existing [SparkFun Serial Controlled Motor Driver Arduino Library](https://github.com/sparkfun/SparkFun_Serial_Controlled_Motor_Driver_Arduino_Library)
+
+This package can be used in conjunction with the overall [SparkFun qwiic Python Package](https://github.com/sparkfun/Qwiic_Py)
+
+New to qwiic? Take a look at the entire [SparkFun qwiic ecosystem](https://www.sparkfun.com/qwiic).
+
+"""
 import qwiic_i2c
 
 # Define the device name and I2C addresses. These are set in the class defintion 
@@ -48,6 +59,26 @@ _AVAILABLE_I2C_ADDRESS = [0x58, 0x59, 0x5A, 0x5C]
 
 # Simple replication of the diagnostic class.
 class SCMDDiagnostics(object):
+	"""
+	SCMDDiagnostics
+
+		Object used for diagnostic reporting.
+
+		:ivar numberOfSlaves: 
+		:ivar U_I2C_RD_ERR: 
+		:ivar U_I2C_WR_ERR:
+		:ivar U_BUF_DUMPED:
+		:ivar E_I2C_RD_ERR:
+		:ivar E_I2C_WR_ERR:
+		:ivar LOOP_TIME:
+		:ivar SLV_POLL_CNT:
+		:ivar MST_E_ERR:
+		:ivar MST_E_STATUS:
+		:ivar FSAFE_FAULTS:
+		:ivar REG_OOR_CNT:
+		:ivar REG_RO_WRITE_CNT:
+
+	"""
 
 	def __init__(self):
 
@@ -69,6 +100,16 @@ class SCMDDiagnostics(object):
 		self.REG_RO_WRITE_CNT = 0
 
 class QwiicScmd(object):
+	"""
+	QwiicScmd
+
+		:param address: The I2C address to use for the device. 
+						If not provided, the default address is used.
+		:param i2c_driver: An existing i2c driver object. If not provided 
+						a driver object is created. 
+		:return: The Serial Control Motor Driver device object.
+		:rtype: Object
+	"""
 
 	# Constructor
 	device_name = _DEFAULT_NAME
@@ -224,10 +265,23 @@ class QwiicScmd(object):
 
 	#----------------------------------------------
 	def isConnected(self):
+		""" 
+			Determine if a SCMD device is conntected to the system..
+
+			:return: True if the device is connected, otherwise False.
+			:rtype: bool
+
+		"""
 		return qwiic_i2c.isDeviceConnected(self.address)
 
 	def begin(self):
+		""" 
+			Initialize the operation of the SCMD module
 
+			:return: Returns true of the initializtion was successful, otherwise False.
+			:rtype: bool
+
+		"""
 		# dummy read
 		self._i2c.readByte(self.address, self.SCMD_ID)
 
@@ -236,26 +290,53 @@ class QwiicScmd(object):
 
 	# check if enumeration is complete
 	def ready( self ):
+		""" 
+			Returns if the driver is ready
 
+			:return: Ready status
+			:rtype: boolean
+
+		"""
 		statusByte = self._i2c.readByte(self.address, self.SCMD_STATUS_1)
 
 		return (statusByte & self.SCMD_ENUMERATION_BIT  and  statusByte != 0xFF)  #wait for ready flag and not 0xFF
 
 	def busy(self):
+		""" 
+			Returns if the driver is busy
 
+			:return: busy status
+			:rtype: boolean
+
+		"""
 		statusByte = self._i2c.readByte(self.address, self.SCMD_STATUS_1)
 
 		return (statusByte & (self.SCMD_BUSY_BIT | self.SCMD_REM_READ_BIT | self.SCMD_REM_WRITE_BIT) != 0)  
 
 	# Enable and disable functions.  Call after begin to enable the h-bridges
 	def enable( self ):
+		""" 
+			Enable driver functions
+
+			:return: No return value
+
+		"""
 		self._i2c.writeByte(self.address, self.SCMD_DRIVER_ENABLE, 0x01)
 
 	def disable( self ):
+		""" 
+			Disable driver functions
+
+			:return: No return value
+
+		"""
 		self._i2c.writeByte(self.address, self.SCMD_DRIVER_ENABLE, 0x00)
 
 	# this is a hack in the Arduino lib - the placeholder is for compatablity
 	def reset(self):
+		""" 
+			This is a hack in the Arduino lib - the placeholder is for compatablity
+		"""
 		pass
 
 	# ****************************************************************************# 
@@ -272,6 +353,16 @@ class QwiicScmd(object):
 	#   uint8_t direction -- 0 or 1 for forward and backward
 	#   int8_t level -- (-255) to 255 for drive strength
 	def setDrive( self, motorNum, direction, level):
+		""" 
+			Drive a motor at a level
+
+			:param motoNum: Motor number from 0 to 33
+			:param direction: 0 or 1 for forward and backward
+			:param level: (-255) to 255 for drive strength
+
+			:return: No return value
+
+		"""
 
 		# Convert value to a 7-bit int and match the indexing for uint8_t values as needed in Arduino library
 		level = round((level + 1 - direction)/2) 
@@ -292,6 +383,15 @@ class QwiicScmd(object):
 	#   motorNum -- Motor number from 0 to 33
 	#   polarity -- 0 or 1 for default or inverted
 	def inversionMode( self, motorNum, polarity ):
+		""" 
+			Configure a motor's direction inversion
+
+			:param motoNum: Motor number from 0 to 33
+			:param polarity: 0 or 1 for default or inverted
+
+			:return: No return value
+
+		"""
 
 		regTemp =0
 		# Select target register
@@ -341,6 +441,15 @@ class QwiicScmd(object):
 	#   driverNum -- Number of driver.  Master is 0, slave 1 is 1, etc.  0 to 16
 	#   bridged -- 0 or 1 for forward and backward
 	def bridgingMode( self, driverNum, bridged):
+		""" 
+			Configure a driver's bridging state
+
+			:param driverNum: Number of driver.  Master is 0, slave 1 is 1, etc.  0 to 16
+			:param bridged: 0 or 1 for forward and backward
+
+			:return: No return value
+
+		"""
 
 		regTemp=0
 		# Select target register
@@ -380,6 +489,13 @@ class QwiicScmd(object):
 	# 	Object returned with properties that are the diagnostic info
 
 	def getDiagnostics( self ):
+		""" 
+			Get diagnostic information from the masterd
+
+			:return: Object returned with properties that are the diagnostic info
+			:rtype: Object - SCMDDiagnostics()
+
+		"""
 
 		myDiag = SCMDDiagnostics()
 
@@ -412,6 +528,14 @@ class QwiicScmd(object):
 	#   uint8_t address -- Address of slave to read.  Can be 0x50 to 0x5F for slave 1 to 16.
 	#   SCMDDiagnostics &diagObjectReference -- Object to contain returned data
 	def getRemoteDiagnostics( self, address):
+		""" 
+			Get diagnostic information from a slave
+			
+			:param address: Address of slave to read.  Can be 0x50 to 0x5F for slave 1 to 16.
+			:return: Object returned with properties that are the diagnostic info
+			:rtype: Object - SCMDDiagnostics()
+
+		"""
 
 		myDiag = SCMDDiagnostics()
 
@@ -436,6 +560,12 @@ class QwiicScmd(object):
 	#     Reset the master's diagnostic counters
 	# 
 	def resetDiagnosticCounts( self ):
+		""" 
+			Reset the master's diagnostic counters
+			
+			:return: No return value
+
+		"""
 
 		self._i2c.writeByte(self.address,  self.SCMD_U_I2C_RD_ERR, 0 )
 		self._i2c.writeByte(self.address,  self.SCMD_U_I2C_WR_ERR, 0 )
@@ -455,6 +585,14 @@ class QwiicScmd(object):
 	# 
 	#   uint8_t address -- Address of slave to read.  Can be 0x50 to 0x5F for slave 1 to 16.
 	def resetRemoteDiagnosticCounts( self, address ):
+		""" 
+			Reset a slave's diagnostic counters
+
+			:param address: Address of slave to read.  Can be 0x50 to 0x5F for slave 1 to 16.
+			
+			:return: No return value
+
+		"""
 	
 		self.writeRemoteRegister( address, self.SCMD_U_I2C_RD_ERR, 0 )
 		self.writeRemoteRegister( address, self.SCMD_U_I2C_WR_ERR, 0 )
@@ -477,6 +615,17 @@ class QwiicScmd(object):
 	#   address -- Address of slave to read.  Can be 0x50 to 0x5F for slave 1 to 16.
 	#   offset -- Address of data to read.  Can be 0x00 to 0x7F
 	def readRemoteRegister(self, address, offset):
+		""" 
+			Read data from a slave.  Note that this waits 5ms for slave data to be aquired
+			before making the final read.
+
+			:param address: Address of slave to read.  Can be 0x50 to 0x5F for slave 1 to 16.
+			:param offset: Address of data to read.  Can be 0x00 to 0x7F
+			
+			:return: Register Value
+			:rtype: integer
+
+		"""
 
 		self._i2c.writeByte(self.address, self.SCMD_REM_ADDR, address)
 		self._i2c.writeByte(self.address, self.SCMD_REM_OFFSET, offset)
@@ -497,6 +646,16 @@ class QwiicScmd(object):
 	#   dataToWrite -- Data to write.
 
 	def writeRemoteRegister(self, address, offset, dataToWrite):
+		""" 
+			Write data from a slave
+
+			:param address: Address of slave to read.  Can be 0x50 to 0x5F for slave 1 to 16.
+			:param offset: Address of data to read.  Can be 0x00 to 0x7F
+			:param dataToWrite: The data to write
+			
+			:return: No return value
+
+		"""
 
 		while self.busy():
 			pass
