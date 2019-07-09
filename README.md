@@ -43,7 +43,7 @@ This driver package depends on the qwiic I2C driver:
 
 Documentation
 -------------
-The Sparkfun qwiic SCMD module documentation is hosted at [ReadTheDocs](https://qwiic-scmd-py.readthedocs.io/en/latest/index.html)
+The SparkFun qwiic SCMD module documentation is hosted at [ReadTheDocs](https://qwiic-scmd-py.readthedocs.io/en/latest/index.html)
 
 Installation
 ---------------
