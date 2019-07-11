@@ -32,9 +32,17 @@ New to qwiic? Take a look at the entire [SparkFun qwiic ecosystem](https://www.s
 
 ## Contents
 
+* [Supported Plaforms](#supported-platforms)
 * [Dependencies](#dependencies)
 * [Installation](#installation)
 * [Documentation](#documentation)
+
+Supported Platforms
+--------------------
+The qwiic Python package current supports the following platforms:
+* [Raspberry Pi](https://www.sparkfun.com/search/results?term=raspberry+pi)
+* [NVidia Jetson Nano](https://www.sparkfun.com/products/15297)
+* [Google Coral Development Board](https://www.sparkfun.com/products/15318)
 
 Dependencies 
 -------------
