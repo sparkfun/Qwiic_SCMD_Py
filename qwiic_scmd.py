@@ -264,7 +264,7 @@ class QwiicScmd(object):
 			self._i2c = i2c_driver
 
 	#----------------------------------------------
-	def isConnected(self):
+	def is_connected(self):
 		""" 
 			Determine if a SCMD device is conntected to the system..
 
@@ -273,6 +273,8 @@ class QwiicScmd(object):
 
 		"""
 		return qwiic_i2c.isDeviceConnected(self.address)
+
+	connected = property(is_connected)
 
 	def begin(self):
 		""" 
@@ -345,14 +347,14 @@ class QwiicScmd(object):
 	# 
 	# ****************************************************************************# 
 	
-	# setDrive( ... )
+	# set_drive( ... )
 	# 
 	#     Drive a motor at a level
 	# 
 	#   uint8_t motorNum -- Motor number from 0 to 33
 	#   uint8_t direction -- 0 or 1 for forward and backward
 	#   int8_t level -- (-255) to 255 for drive strength
-	def setDrive( self, motorNum, direction, level):
+	def set_drive( self, motorNum, direction, level):
 		""" 
 			Drive a motor at a level
 
@@ -376,13 +378,13 @@ class QwiicScmd(object):
 			self._i2c.writeByte(self.address, self.SCMD_MA_DRIVE + motorNum, driveValue)
 
 
-	# inversionMode( ... )
+	# inversion_mode( ... )
 	# 
 	#     Configure a motor's direction inversion
 	# 
 	#   motorNum -- Motor number from 0 to 33
 	#   polarity -- 0 or 1 for default or inverted
-	def inversionMode( self, motorNum, polarity ):
+	def inversion_mode( self, motorNum, polarity ):
 		""" 
 			Configure a motor's direction inversion
 
@@ -440,7 +442,7 @@ class QwiicScmd(object):
 	# 
 	#   driverNum -- Number of driver.  Master is 0, slave 1 is 1, etc.  0 to 16
 	#   bridged -- 0 or 1 for forward and backward
-	def bridgingMode( self, driverNum, bridged):
+	def bridging_mode( self, driverNum, bridged):
 		""" 
 			Configure a driver's bridging state
 
@@ -488,7 +490,7 @@ class QwiicScmd(object):
 	#
 	# 	Object returned with properties that are the diagnostic info
 
-	def getDiagnostics( self ):
+	def get_diagnostics( self ):
 		""" 
 			Get diagnostic information from the masterd
 
@@ -521,13 +523,13 @@ class QwiicScmd(object):
 
 		return myDiag
 
-	# getRemoteDiagnostics( ... )
+	# get_remote_diagnostics( ... )
 	# 
 	#     Get diagnostic information from a slave
 	# 
 	#   uint8_t address -- Address of slave to read.  Can be 0x50 to 0x5F for slave 1 to 16.
 	#   SCMDDiagnostics &diagObjectReference -- Object to contain returned data
-	def getRemoteDiagnostics( self, address):
+	def get_remote_diagnostics( self, address):
 		""" 
 			Get diagnostic information from a slave
 			
@@ -543,23 +545,23 @@ class QwiicScmd(object):
 		myDiag.U_I2C_RD_ERR 	= 0
 		myDiag.U_I2C_WR_ERR 	= 0
 		myDiag.U_BUF_DUMPED 	= 0
-		myDiag.E_I2C_RD_ERR 	= self.readRemoteRegister( address, self.SCMD_E_I2C_RD_ERR )
-		myDiag.E_I2C_WR_ERR 	= self.readRemoteRegister( address, self.SCMD_E_I2C_WR_ERR )
-		myDiag.LOOP_TIME 		= self.readRemoteRegister( address, self.SCMD_LOOP_TIME )
+		myDiag.E_I2C_RD_ERR 	= self.read_remote_register( address, self.SCMD_E_I2C_RD_ERR )
+		myDiag.E_I2C_WR_ERR 	= self.read_remote_register( address, self.SCMD_E_I2C_WR_ERR )
+		myDiag.LOOP_TIME 		= self.read_remote_register( address, self.SCMD_LOOP_TIME )
 		myDiag.SLV_POLL_CNT 	= 0
 		myDiag.MST_E_ERR 		= 0
 		myDiag.MST_E_STATUS 	= 0
-		myDiag.FSAFE_FAULTS 	= self.readRemoteRegister( address, self.SCMD_FSAFE_FAULTS )
-		myDiag.REG_OOR_CNT 		= self.readRemoteRegister( address, self.SCMD_REG_OOR_CNT )
-		myDiag.REG_RO_WRITE_CNT = self.readRemoteRegister( address, self.SCMD_REG_RO_WRITE_CNT )
+		myDiag.FSAFE_FAULTS 	= self.read_remote_register( address, self.SCMD_FSAFE_FAULTS )
+		myDiag.REG_OOR_CNT 		= self.read_remote_register( address, self.SCMD_REG_OOR_CNT )
+		myDiag.REG_RO_WRITE_CNT = self.read_remote_register( address, self.SCMD_REG_RO_WRITE_CNT )
 
 		return myDiag
 
-	# resetDiagnosticCounts( ... )
+	# reset_diagnostic_counts( ... )
 	# 
 	#     Reset the master's diagnostic counters
 	# 
-	def resetDiagnosticCounts( self ):
+	def reset_diagnostic_counts( self ):
 		""" 
 			Reset the master's diagnostic counters
 			
@@ -579,12 +581,12 @@ class QwiicScmd(object):
 		self._i2c.writeByte(self.address,  self.SCMD_REG_OOR_CNT, 0 )
 		self._i2c.writeByte(self.address,  self.SCMD_REG_RO_WRITE_CNT, 0 )	
 
-	# resetRemoteDiagnosticCounts( ... )
+	# reset_remote_diagnostic_counts( ... )
 	# 
 	#     Reset a slave's diagnostic counters
 	# 
 	#   uint8_t address -- Address of slave to read.  Can be 0x50 to 0x5F for slave 1 to 16.
-	def resetRemoteDiagnosticCounts( self, address ):
+	def reset_remote_diagnostic_counts( self, address ):
 		""" 
 			Reset a slave's diagnostic counters
 
@@ -594,27 +596,27 @@ class QwiicScmd(object):
 
 		"""
 	
-		self.writeRemoteRegister( address, self.SCMD_U_I2C_RD_ERR, 0 )
-		self.writeRemoteRegister( address, self.SCMD_U_I2C_WR_ERR, 0 )
-		self.writeRemoteRegister( address, self.SCMD_U_BUF_DUMPED, 0 )
-		self.writeRemoteRegister( address, self.SCMD_E_I2C_RD_ERR, 0 )
-		self.writeRemoteRegister( address, self.SCMD_E_I2C_WR_ERR, 0 )
+		self.write_remote_register( address, self.SCMD_U_I2C_RD_ERR, 0 )
+		self.write_remote_register( address, self.SCMD_U_I2C_WR_ERR, 0 )
+		self.write_remote_register( address, self.SCMD_U_BUF_DUMPED, 0 )
+		self.write_remote_register( address, self.SCMD_E_I2C_RD_ERR, 0 )
+		self.write_remote_register( address, self.SCMD_E_I2C_WR_ERR, 0 )
 		# Clear uport time
-		self.writeRemoteRegister( address, self.SCMD_LOOP_TIME, 0 )
-		self.writeRemoteRegister( address, self.SCMD_ID, 0 )
-		self.writeRemoteRegister( address, self.SCMD_FSAFE_FAULTS, 0 )
-		self.writeRemoteRegister( address, self.SCMD_REG_OOR_CNT, 0 )
-		self.writeRemoteRegister( address, self.SCMD_REG_RO_WRITE_CNT, 0 )	
+		self.write_remote_register( address, self.SCMD_LOOP_TIME, 0 )
+		self.write_remote_register( address, self.SCMD_ID, 0 )
+		self.write_remote_register( address, self.SCMD_FSAFE_FAULTS, 0 )
+		self.write_remote_register( address, self.SCMD_REG_OOR_CNT, 0 )
+		self.write_remote_register( address, self.SCMD_REG_RO_WRITE_CNT, 0 )	
 
 
-	# readRemoteRegister( ... )
+	# read_remote_register( ... )
 	# 
 	#     Read data from a slave.  Note that this waits 5ms for slave data to be aquired
 	#   before making the final read.
 	# 
 	#   address -- Address of slave to read.  Can be 0x50 to 0x5F for slave 1 to 16.
 	#   offset -- Address of data to read.  Can be 0x00 to 0x7F
-	def readRemoteRegister(self, address, offset):
+	def read_remote_register(self, address, offset):
 		""" 
 			Read data from a slave.  Note that this waits 5ms for slave data to be aquired
 			before making the final read.
@@ -637,7 +639,7 @@ class QwiicScmd(object):
 		return self._i2c.readByte(self.address, self.SCMD_REM_DATA_RD)
 	
 
-	# writeRemoteRegister( ... )
+	# write_remote_register( ... )
 	# 
 	#     Write data from a slave
 	# 
@@ -645,7 +647,7 @@ class QwiicScmd(object):
 	#   offset -- Address of data to write.  Can be 0x00 to 0x7F
 	#   dataToWrite -- Data to write.
 
-	def writeRemoteRegister(self, address, offset, dataToWrite):
+	def write_remote_register(self, address, offset, dataToWrite):
 		""" 
 			Write data from a slave
 
