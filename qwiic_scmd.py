@@ -65,7 +65,7 @@ _DEFAULT_NAME = "Qwiic Serial Control Motor Driver"
 # Some devices have multiple availabel addresses - this is a list of these addresses.
 # NOTE: The first address in this list is considered the default I2C address for the
 # device.
-_AVAILABLE_I2C_ADDRESS = [0x58, 0x59, 0x5A, 0x5C]
+_AVAILABLE_I2C_ADDRESS = [0x5D, 0x58, 0x59, 0x5A, 0x5C]
 
 # pylint: disable=too-few-public-methods
 # Simple replication of the diagnostic class.
