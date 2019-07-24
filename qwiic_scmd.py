@@ -378,7 +378,7 @@ class QwiicScmd(object):
         """
 
         # Convert value to a 7-bit int and match the indexing for uint8_t values as needed in Arduino library
-        level = round((level + 1 - direction)/2)
+        level = int(round((level + 1 - direction)/2))
 
         driveValue = 0 # use to build value to actually write to register
 
