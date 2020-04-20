@@ -60,6 +60,11 @@ def runExample():
 	myMotor.begin()
 	print("Motor initialized.")
 	time.sleep(.250)
+	
+	# Zero Motor Speeds
+	myMotor.set_drive(0,0,0)
+	myMotor.set_drive(1,0,0)
+	
 	myMotor.enable()
 	print("Motor enabled")
 	time.sleep(.250)
@@ -71,7 +76,7 @@ def runExample():
 			print(speed)
 			myMotor.set_drive(R_MTR,FWD,speed)
 			time.sleep(.05)
-		for speed in range(255,20, -1):
+		for speed in range(254,20, -1):
 			print(speed)
 			myMotor.set_drive(R_MTR,FWD,speed)
 			time.sleep(.05)
